@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Tasker</string>
+
+    <!-- Main Activity  -->
+    <string name="main_hello_world">Hello World!</string>
+    <string name="main_target_word">Hello</string>
+</resources>
