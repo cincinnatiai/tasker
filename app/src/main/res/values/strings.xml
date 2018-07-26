@@ -1,8 +1,22 @@
 <resources>
     <string name="app_name">Tasker</string>
 
+    <!-- Generic -->
+    <string name="enable">Enable</string>
+    <string name="not_now">Not now</string>
+
     <!-- Main Activity  -->
     <string name="main_hello_world">Hello World!</string>
     <string name="main_target_word">Hello</string>
     <string name="task_1_success">Task #1 was successfully completed</string>
+
+    <!-- Task 2 -->
+    <string name="task_two_permission_title">Location Permission</string>
+    <string name="task_two_permission_rationale">To help your experience in this app please enable locations updates.</string>
+    <string name="task_two_permission_denied_title">Location Permission</string>
+    <string name="task_two_permission_denied_message">In order to improve your experience in this app please enabled locations in your settings.</string>
+
+    <!-- Errors -->
+    <string name="error_no_google_play">Google Play services is needed to use this feature.</string>
+
 </resources>

@@ -24,8 +24,15 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation (
+
+            // Support
             deps.support.app_compat,
             deps.constraint_layout,
+
+            // Play Services
+            deps.location,
+            deps.gcm,
+
             deps.kotlin.stdlib
     )
 
