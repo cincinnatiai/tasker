@@ -4,4 +4,5 @@
     <!-- Main Activity  -->
     <string name="main_hello_world">Hello World!</string>
     <string name="main_target_word">Hello</string>
+    <string name="task_1_success">Task #1 was successfully completed</string>
 </resources>
