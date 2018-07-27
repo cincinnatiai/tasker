@@ -44,6 +44,7 @@ class ScheduledLocationService : GcmTaskService(),
         startLocationUpdates(this)
     }
 
+    // Connects to google api client when task is run
     override fun onRunTask(params: TaskParams?): Int {
         googleApiClient.connect()
         return GcmNetworkManager.RESULT_SUCCESS
@@ -52,19 +53,20 @@ class ScheduledLocationService : GcmTaskService(),
     // The permission should be checked for in MainActivity
     @SuppressWarnings("MissingPermission")
     override fun onConnected(p0: Bundle?) {
-        LocationServices.getFusedLocationProviderClient(this).requestLocationUpdates(locationRequest, object: LocationCallback() {
+        LocationServices.getFusedLocationProviderClient(this).requestLocationUpdates(locationRequest, object : LocationCallback() {
 
             override fun onLocationResult(location: LocationResult?) {
                 super.onLocationResult(location)
-                    location?.apply {
+                location?.apply {
                     Toast.makeText(this@ScheduledLocationService, "Location: ${toString()}", Toast.LENGTH_LONG).show()
+                    // TODO 07/25/2018 Can persist either using sharedpreferences or sqllite
                 }
 
             }
         }, null)
     }
 
-    override fun onConnectionSuspended(p0: Int) { } // nop
+    override fun onConnectionSuspended(p0: Int) {} // nop
 
     override fun onConnectionFailed(p0: ConnectionResult) {
         Log.w(TAG, "Connection failed")

@@ -29,13 +29,13 @@ class MainActivity : BaseCompatActivity(), MainContract.View {
         setContentView(R.layout.activity_main)
     }
 
-    override fun onResume() {
-        super.onResume()
+    override fun onStart() {
+        super.onStart()
         presenter.start(this)
     }
 
-    override fun onPause() {
-        super.onPause()
+    override fun onStop() {
+        super.onStop()
         presenter.detachView()
     }
 
