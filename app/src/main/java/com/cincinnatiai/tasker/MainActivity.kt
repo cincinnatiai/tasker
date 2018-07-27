@@ -83,10 +83,12 @@ class MainActivity : BaseCompatActivity(), MainContract.View {
         }
     }
 
+    // Displays first toast for success message
     override fun showFirstSuccessMessage() {
         showToast(R.string.task_1_success)
     }
 
+    // Starts job using GCMtask extended service
     override fun startJob() {
         ScheduledLocationService.startLocationUpdates(this)
     }

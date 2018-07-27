@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import com.cincinnatiai.tasker.BuildConfig
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.gcm.*
@@ -14,7 +15,7 @@ import com.google.android.gms.location.LocationServices
 
 private const val LOCATION_SERVICE_TAG = "tasker:location_service"
 
-
+// Uses GCM library for service - library will determine whether to use jobscheduler for android 21+
 class ScheduledLocationService : GcmTaskService(),
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
@@ -31,14 +32,15 @@ class ScheduledLocationService : GcmTaskService(),
     private val locationRequest by lazy {
         LocationRequest.create().apply {
             priority = LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY
-            interval = 1000
-            fastestInterval = 300
+            numUpdates = 1
+            fastestInterval = 100
         }
     }
 
     // Called when the process has been killed b/c client app has been updated or play services has updated
     override fun onInitializeTasks() {
         super.onInitializeTasks()
+        // Need to restart the service
         startLocationUpdates(this)
     }
 
@@ -74,7 +76,7 @@ class ScheduledLocationService : GcmTaskService(),
         fun startLocationUpdates(context: Context) {
             val taskBuilder = PeriodicTask.Builder()
                     .setService(ScheduledLocationService::class.java)
-                    .setPeriod(30L)
+                    .setPeriod(BuildConfig.TIME_INTERVAL)
                     .setRequiredNetwork(Task.NETWORK_STATE_ANY)
                     .setRequiresCharging(false)
                     .setTag(LOCATION_SERVICE_TAG)
