@@ -48,7 +48,7 @@ class MainActivity : BaseCompatActivity(), MainContract.View {
                     //TODO 07/25/2018 Do something other than nothing
                 }
                 grantResults.first() == PackageManager.PERMISSION_GRANTED -> // Permission granted
-                    presenter.helloClicked(this)
+                    presenter.helloClicked()
                 else -> // Permission was denied; Could have been from a `Don't ask again` checkbox
                     AlertDialog.Builder(this)
                             .setTitle(R.string.task_two_permission_denied_title)
@@ -78,10 +78,12 @@ class MainActivity : BaseCompatActivity(), MainContract.View {
 
             // Set the listener via clickable span
             text = helloWorld.performOnTextClick(targetWord, {
-                presenter.helloClicked(this@MainActivity)
+                presenter.helloClicked()
             })
         }
     }
+
+    override fun checkLocationsPermissions() = ActivityCompat.checkSelfPermission(this, REQUIRED_PERMISSION) == PackageManager.PERMISSION_GRANTED
 
     // Displays first toast for success message
     override fun showFirstSuccessMessage() {
@@ -89,7 +91,7 @@ class MainActivity : BaseCompatActivity(), MainContract.View {
     }
 
     // Starts job using GCMtask extended service
-    override fun startJob() {
+    override fun startLocationUpdates() {
         ScheduledLocationService.startLocationUpdates(this)
     }
 

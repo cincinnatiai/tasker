@@ -40,7 +40,10 @@ dependencies {
             deps.kotlin.stdlib
     )
 
-    testImplementation deps.junit
+    testImplementation (
+            deps.junit,
+            deps.mockito.core
+    )
 
     androidTestImplementation (
             'com.android.support.test:runner:1.0.2',
