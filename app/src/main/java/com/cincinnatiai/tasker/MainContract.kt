@@ -8,13 +8,13 @@ interface MainContract {
         fun requestPermissions()
         fun showClickableHelloWorld()
         fun showFirstSuccessMessage()
-        fun startJob()
+        fun checkLocationsPermissions(): Boolean
+        fun startLocationUpdates()
     }
 
     interface Presenter {
         fun start(view: View)
-        fun helloClicked(context: Context)
-        fun checkLocationsPermissions(context: Context): Boolean
+        fun helloClicked()
         fun detachView()
     }
 }

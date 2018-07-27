@@ -6,6 +6,7 @@ versions.junit = "4.12"
 versions.constraint_layout = "1.1.2"
 versions.kotlin = "1.2.41"
 versions.play_services = "15.0.1"
+versions.mockito = "2.7.19"
 
 def deps = [:]
 
@@ -29,6 +30,10 @@ kotlin.test = "org.jetbrains.kotlin:kotlin-test-junit:$versions.kotlin"
 kotlin.plugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin"
 kotlin.allopen = "org.jetbrains.kotlin:kotlin-allopen:$versions.kotlin"
 deps.kotlin = kotlin
+
+def mockito = [:]
+mockito.core = "org.mockito:mockito-core:$versions.mockito"
+deps.mockito = mockito
 
 deps.location = "com.google.android.gms:play-services-location:$versions.play_services"
 deps.gcm = "com.google.android.gms:play-services-gcm:$versions.play_services"

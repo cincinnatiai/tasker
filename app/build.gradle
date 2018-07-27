@@ -11,8 +11,12 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        buildConfigField 'long', 'TIME_INTERVAL', '3600'
     }
     buildTypes {
+        debug {
+            buildConfigField 'long', 'TIME_INTERVAL', '60'
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -36,7 +40,10 @@ dependencies {
             deps.kotlin.stdlib
     )
 
-    testImplementation deps.junit
+    testImplementation (
+            deps.junit,
+            deps.mockito.core
+    )
 
     androidTestImplementation (
             'com.android.support.test:runner:1.0.2',

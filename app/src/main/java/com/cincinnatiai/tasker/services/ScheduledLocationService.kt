@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import com.cincinnatiai.tasker.BuildConfig
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.gcm.*
@@ -14,7 +15,7 @@ import com.google.android.gms.location.LocationServices
 
 private const val LOCATION_SERVICE_TAG = "tasker:location_service"
 
-
+// Uses GCM library for service - library is compatible on Android sdk 9+
 class ScheduledLocationService : GcmTaskService(),
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
@@ -31,17 +32,19 @@ class ScheduledLocationService : GcmTaskService(),
     private val locationRequest by lazy {
         LocationRequest.create().apply {
             priority = LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY
-            interval = 1000
-            fastestInterval = 300
+            numUpdates = 1
+            fastestInterval = 100
         }
     }
 
     // Called when the process has been killed b/c client app has been updated or play services has updated
     override fun onInitializeTasks() {
         super.onInitializeTasks()
+        // Need to restart the service
         startLocationUpdates(this)
     }
 
+    // Connects to google api client when task is run
     override fun onRunTask(params: TaskParams?): Int {
         googleApiClient.connect()
         return GcmNetworkManager.RESULT_SUCCESS
@@ -50,19 +53,20 @@ class ScheduledLocationService : GcmTaskService(),
     // The permission should be checked for in MainActivity
     @SuppressWarnings("MissingPermission")
     override fun onConnected(p0: Bundle?) {
-        LocationServices.getFusedLocationProviderClient(this).requestLocationUpdates(locationRequest, object: LocationCallback() {
+        LocationServices.getFusedLocationProviderClient(this).requestLocationUpdates(locationRequest, object : LocationCallback() {
 
             override fun onLocationResult(location: LocationResult?) {
                 super.onLocationResult(location)
-                    location?.apply {
+                location?.apply {
                     Toast.makeText(this@ScheduledLocationService, "Location: ${toString()}", Toast.LENGTH_LONG).show()
+                    // TODO 07/25/2018 Can persist either using sharedpreferences or sqllite
                 }
 
             }
         }, null)
     }
 
-    override fun onConnectionSuspended(p0: Int) { } // nop
+    override fun onConnectionSuspended(p0: Int) {} // nop
 
     override fun onConnectionFailed(p0: ConnectionResult) {
         Log.w(TAG, "Connection failed")
@@ -74,7 +78,7 @@ class ScheduledLocationService : GcmTaskService(),
         fun startLocationUpdates(context: Context) {
             val taskBuilder = PeriodicTask.Builder()
                     .setService(ScheduledLocationService::class.java)
-                    .setPeriod(30L)
+                    .setPeriod(BuildConfig.TIME_INTERVAL)
                     .setRequiredNetwork(Task.NETWORK_STATE_ANY)
                     .setRequiresCharging(false)
                     .setTag(LOCATION_SERVICE_TAG)
