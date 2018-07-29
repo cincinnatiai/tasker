@@ -2,7 +2,7 @@
 Code test involving background services and Kotlin.
 
 ## Setup and Installation
-1. Clone the repo with `git clone --recursive https://github.com/nicholaspark09/tasker.git`
+1. Clone the repo with `git clone --recursive https://github.com/cincinnatiai/tasker.git`
 2. cd tasker
 
 ## Branching Strategy
